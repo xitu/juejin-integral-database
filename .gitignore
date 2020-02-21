@@ -1,0 +1,7 @@
+.idea
+integrals*.md
+__pycache__
+db.bin
+
+# sensitive file
+secret
