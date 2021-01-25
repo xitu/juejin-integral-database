@@ -93,8 +93,8 @@ class Data:
                                                                  user_record['info']['url'],
                                                                  formatNumber(user_record['info']['history_integral']),
                                                                  formatNumber(user_record['info']['integral']))
-                if "integral_2020" in user_record['info']:
-                    head += " 二零二零：{}".format(formatNumber(user_record['info']['integral_2020']))
+                if "integral_2021" in user_record['info']:
+                    head += " 二零二一：{}".format(formatNumber(user_record['info']['integral_2021']))
                 writer.write(head + '\n\n')
                 writer.write("|文章|类型|积分|" + '\n')
                 writer.write(self.table_header_sep)
@@ -123,14 +123,14 @@ class Data:
         integrals = number_re.findall(integral_part)
         integrals = list(map(float, integrals))
         if len(integrals) is 3:
-            # 有 2020 年积分记录
-            history_integral, integral, integral_2020 = integrals
+            # 有 2021 年积分记录
+            history_integral, integral, integral_2021 = integrals
             assert history_integral >= integral
-            assert history_integral >= integral_2020
+            assert history_integral >= integral_2021
             return {'name': username, 'url': userurl, 'history_integral': history_integral,
-                    'integral': integral, 'integral_2020': integral_2020}
+                    'integral': integral, 'integral_2021': integral_2021}
         elif len(integrals) is 2:
-            # 没有 2020 年积分记录
+            # 没有 2021 年积分记录
             history_integral, integral = integrals
             assert history_integral >= integral
             return {'name': username, 'url': userurl, 'history_integral': history_integral,
