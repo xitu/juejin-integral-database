@@ -44,7 +44,7 @@ class Data:
             if '|类型|积分|' in l or '|------' in l:
                 # 忽略表头
                 continue
-            if l is '':
+            if l == '':
                 continue
             if l.startswith('#'):
                 # 将上一个用户的记录存入 list
@@ -122,14 +122,14 @@ class Data:
         integral_part = user_part_re.split(text)[-1]
         integrals = number_re.findall(integral_part)
         integrals = list(map(float, integrals))
-        if len(integrals) is 3:
+        if len(integrals) == 3:
             # 有 2021 年积分记录
             history_integral, integral, integral_2021 = integrals
             assert history_integral >= integral
             assert history_integral >= integral_2021
             return {'name': username, 'url': userurl, 'history_integral': history_integral,
                     'integral': integral, 'integral_2021': integral_2021}
-        elif len(integrals) is 2:
+        elif len(integrals) == 2:
             # 没有 2021 年积分记录
             history_integral, integral = integrals
             assert history_integral >= integral
