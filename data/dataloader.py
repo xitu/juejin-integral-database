@@ -5,7 +5,6 @@ import urllib.request
 
 import markdown
 from lxml import etree
-from tqdm import tqdm
 
 from utils import formatNumber
 
@@ -40,7 +39,7 @@ class Data:
         initial_user_record = {'info': {}, 'data': []}
         initial_record = {'type': None, 'integral': 0, 'content': None, 'article': {'name': None, 'url': None}}
         user_record = copy.deepcopy(initial_user_record)
-        for l in tqdm(lines):
+        for l in lines:
             if '|类型|积分|' in l or '|------' in l:
                 # 忽略表头
                 continue
@@ -87,7 +86,7 @@ class Data:
         print('Exporting data...')
         with open(output, 'w') as writer:
             writer.write(self.header)
-            for user_record in tqdm(self.data):
+            for user_record in self.data:
                 writer.write('\n')
                 head = "## 译者：[{}]({}) 历史贡献积分：{} 当前积分：{}".format(user_record['info']['name'],
                                                                  user_record['info']['url'],
