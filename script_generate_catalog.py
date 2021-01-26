@@ -1,5 +1,7 @@
 import argparse
 import math
+import os
+from collections import OrderedDict
 
 import requests
 
@@ -50,7 +52,49 @@ def main():
                                                                                            user_homepage=article[
                                                                                                'homepage'])
     print('Total match:', cnt)
-    open(args.label + '.md', 'w').write(out)
+    print('Start merging...')
+
+    if not os.path.exists(args.target):
+        download(args.root_url + args.target, args.target)
+
+    source = parse(out)
+    target = parse(open(args.target).read())  # Newest article is in the previous
+    source = OrderedDict(reversed(list(source.items())))  # reverse ordered dict
+    target = OrderedDict(reversed(list(target.items())))
+    for title in source:
+        if title not in target:
+            target[title] = source[title]
+    target = OrderedDict(reversed(list(target.items())))
+    out = ""
+    for title in target:
+        article = target[title]
+        out += '* [{doc_name}]({doc_url})（[{user_name}]({user_homepage}) 翻译）\n'.format(doc_name=title,
+                                                                                       doc_url=article['url'],
+                                                                                       user_name=article['user'],
+                                                                                       user_homepage=article[
+                                                                                           'homepage'])
+    open('new_' + args.target, 'w').write(out)
+
+
+def parse(text) -> OrderedDict:
+    rs = OrderedDict()
+    data = text.strip()
+    for line in data.split('\n'):
+        line = line.strip()
+        a, d = line.rsplit('](', 1)
+        a, c = a.rsplit('[', 1)
+        a, b = a.rsplit('](', 1)
+        a = a.split('[', 1)[1]
+        b = b.rstrip('() （')
+        d = d.rstrip(')） 翻译')
+        rs[a] = {'url': b, 'user': c, 'homepage': d}
+    return rs
+
+
+def download(url, path):
+    print('Download file from ', url)
+    content = requests.get(url).text
+    open(path, "w").write(content)
 
 
 if __name__ == '__main__':
@@ -58,6 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('--md', default='integrals.md')
     parser.add_argument('--source', default='https://github.com/xitu/gold-miner/raw/master/integrals.md')
     parser.add_argument('--label', default='前端')
-    parser.add_argument('--database', default='db.bin')
+    parser.add_argument('--target', default='front-end.md')
+    parser.add_argument('--root_url', default='https://github.com/xitu/gold-miner/raw/master/')
     args = parser.parse_args()
     main()
