@@ -22,10 +22,10 @@ def add_article_for_user(data, username, article, type, integral):
             user_record['data'].insert(0, article_record)
             user_record['info']['integral'] += integral
             user_record['info']['history_integral'] += integral
-            if 'integral_2021' not in user_record['info']:
-                user_record['info']['integral_2021'] = integral
+            if 'integral_2022' not in user_record['info']:
+                user_record['info']['integral_2022'] = integral
             else:
-                user_record['info']['integral_2021'] += integral
+                user_record['info']['integral_2022'] += integral
 
 
 def main():
