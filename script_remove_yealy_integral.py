@@ -7,8 +7,8 @@ def main():
     # 解析文件为 data
     data = Data(path=args.md, remote_path=args.source)
     for idx, _ in enumerate(data.data):
-        if 'integral_2022' in data.data[idx]['info']:
-            del data.data[idx]['info']['integral_2022']
+        if 'integral_yearly' in data.data[idx]['info']:
+            del data.data[idx]['info']['integral_yearly']
     # 导出 data 至文件
     data.export(output=args.output)
 

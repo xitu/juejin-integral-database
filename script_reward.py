@@ -12,10 +12,10 @@ def add_reward(data, reward_content, translator_name, reward_integral):
             user_record['data'].insert(0, reward_record)
             user_record['info']['integral'] += reward_integral
             user_record['info']['history_integral'] += reward_integral
-            if 'integral_2022' not in user_record['info']:
-                user_record['info']['integral_2022'] = reward_integral
+            if 'integral_yearly' not in user_record['info']:
+                user_record['info']['integral_yearly'] = reward_integral
             else:
-                user_record['info']['integral_2022'] += reward_integral
+                user_record['info']['integral_yearly'] += reward_integral
 
 
 def main():
